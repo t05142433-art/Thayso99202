@@ -3,6 +3,7 @@ sub init()
     m.contentGrid = m.top.findNode("contentGrid")
     m.titleLabel = m.top.findNode("titleLabel")
     m.videoPlayer = m.top.findNode("videoPlayer")
+    m.contentArea = m.top.findNode("contentArea")
     
     m.menuItems = ["Canais", "Filmes", "Séries", "Continuar", "Configurações"]
     m.menuList.content = createMenuContent()
@@ -31,10 +32,15 @@ sub onMenuItemFocused()
     idx = m.menuList.itemFocused
     m.titleLabel.text = m.menuItems[idx]
     
-    if idx = 0 then loadChannels()
-    else if idx = 1 then loadMovies()
-    else if idx = 2 then loadSeries()
-    else if idx = 4 then showSettings()
+    if idx = 0
+        loadChannels()
+    else if idx = 1
+        loadMovies()
+    else if idx = 2
+        loadSeries()
+    else if idx = 4
+        showSettings()
+    end if
 end sub
 
 sub showSettings()

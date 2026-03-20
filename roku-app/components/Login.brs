@@ -36,14 +36,22 @@ end sub
 function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
         if key = "down"
-            if m.hostInput.hasFocus() then m.userInput.setFocus(true)
-            else if m.userInput.hasFocus() then m.passInput.setFocus(true)
-            else if m.passInput.hasFocus() then m.buttons.setFocus(true)
+            if m.hostInput.hasFocus()
+                m.userInput.setFocus(true)
+            else if m.userInput.hasFocus()
+                m.passInput.setFocus(true)
+            else if m.passInput.hasFocus()
+                m.buttons.setFocus(true)
+            end if
             return true
         else if key = "up"
-            if m.buttons.hasFocus() then m.passInput.setFocus(true)
-            else if m.passInput.hasFocus() then m.userInput.setFocus(true)
-            else if m.userInput.hasFocus() then m.hostInput.setFocus(true)
+            if m.buttons.hasFocus()
+                m.passInput.setFocus(true)
+            else if m.passInput.hasFocus()
+                m.userInput.setFocus(true)
+            else if m.userInput.hasFocus()
+                m.hostInput.setFocus(true)
+            end if
             return true
         end if
     end if

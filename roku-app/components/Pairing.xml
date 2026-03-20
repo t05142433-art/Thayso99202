@@ -6,7 +6,7 @@
         
         <Label text="CONECTAR VIA CÓDIGO" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[960, 200]" horizAlign="center" />
         
-        <Label id="codeLabel" text="------" font="font:HugeBoldSystemFont" color="0x00FFFFFF" translation="[960, 450]" horizAlign="center" />
+        <Label id="codeLabel" text="------" font="font:LargeBoldSystemFont" color="0x00FFFFFF" translation="[960, 450]" horizAlign="center" />
         
         <Label text="Acesse no seu celular ou PC:" color="0x888888FF" translation="[960, 600]" horizAlign="center" />
         <Label id="urlLabel" text="http://IP_DO_SERVIDOR:3000" font="font:MediumBoldSystemFont" color="0x00FFFF00" translation="[960, 650]" horizAlign="center" />
