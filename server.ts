@@ -1,85 +1,81 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { createServer as createViteServer } from 'vite';
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
+import { createServer as createViteServer } from "vite";
 
 const app = express();
-const PORT = 3000;
-
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Armazenamento temporário de códigos de pareamento
-const pairingCodes = new Map<string, any>();
+// In-memory store for pairing codes (code -> { status, credentials })
+const sessions: Record<string, { status: string; credentials?: any; expires: number }> = {};
 
-// Proxy para IPTV API
-app.get('/proxy/player_api', async (req, res) => {
-    const { host, username, password, action, category_id } = req.query;
-    if (!host) return res.status(400).send('Host is required');
-
-    const targetUrl = `${host}/player_api.php?username=${username}&password=${password}&action=${action || ''}&category_id=${category_id || ''}`;
-    
-    try {
-        const response = await fetch(targetUrl);
-        const data = await response.json();
-        res.json(data);
-    } catch (error) {
-        res.status(500).send('Error proxying request');
-    }
+// 1. Generate Pairing Code
+app.get("/api/pair/generate", (req, res) => {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  sessions[code] = { status: "pending", expires: Date.now() + 10 * 60 * 1000 }; // 10 mins
+  res.json({ code });
 });
 
-// Endpoint para gerar código de pareamento
-app.get('/api/pair/generate', (req, res) => {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    pairingCodes.set(code, { status: 'pending', timestamp: Date.now() });
-    
-    // Expira em 5 minutos
-    setTimeout(() => pairingCodes.delete(code), 5 * 60 * 1000);
-    
-    res.json({ code });
+// 2. Check Pairing Status (Polling from Roku)
+app.get("/api/pair/status/:code", (req, res) => {
+  const session = sessions[req.params.code];
+  if (!session) return res.status(404).json({ error: "Code not found or expired" });
+  res.json(session);
 });
 
-// Endpoint para o site de pareamento enviar dados
-app.post('/api/pair/connect', (req, res) => {
-    const { code, playlistUrl } = req.body;
-    if (pairingCodes.has(code)) {
-        pairingCodes.set(code, { status: 'connected', playlistUrl, timestamp: Date.now() });
-        res.json({ success: true });
-    } else {
-        res.status(404).json({ success: false, message: 'Código inválido ou expirado' });
-    }
+// 3. Submit Credentials (from Web Browser)
+app.post("/api/pair/submit", (req, res) => {
+  const { code, host, username, password } = req.body;
+  if (!sessions[code]) return res.status(404).json({ error: "Invalid code" });
+  
+  sessions[code] = {
+    status: "completed",
+    credentials: { host, username, password },
+    expires: Date.now() + 5 * 60 * 1000
+  };
+  res.json({ success: true });
 });
 
-// Check de status do pareamento (para a TV consultar)
-app.get('/api/pair/status/:code', (req, res) => {
-    const { code } = req.params;
-    const data = pairingCodes.get(code);
-    if (data) {
-        res.json(data);
-    } else {
-        res.status(404).json({ message: 'Not found' });
-    }
+// 4. IPTV Proxy to avoid CORS
+app.get("/api/proxy", async (req, res) => {
+  const { url } = req.query;
+  if (!url) return res.status(400).send("URL required");
+  
+  try {
+    const response = await axios.get(url as string, {
+      responseType: "stream",
+      headers: { "User-Agent": "Mozilla/5.0" }
+    });
+    response.data.pipe(res);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
 });
 
 async function startServer() {
-    // Vite middleware para desenvolvimento (Site de Pareamento)
-    if (process.env.NODE_ENV !== "production") {
-        const vite = await createViteServer({
-            server: { middlewareMode: true },
-            appType: "spa",
-        });
-        app.use(vite.middlewares);
-    } else {
-        const distPath = path.join(process.cwd(), 'dist');
-        app.use(express.static(distPath));
-        app.get('*', (req, res) => {
-            res.sendFile(path.join(distPath, 'index.html'));
-        });
-    }
+  const PORT = 3000;
 
-    app.listen(PORT, "0.0.0.0", () => {
-        console.log(`Server running on http://localhost:${PORT}`);
+  if (process.env.NODE_ENV !== "production") {
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: "spa",
     });
+    app.use(vite.middlewares);
+  } else {
+    const distPath = path.join(process.cwd(), "dist");
+    app.use(express.static(distPath));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(distPath, "index.html"));
+    });
+  }
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
+  });
 }
 
 startServer();

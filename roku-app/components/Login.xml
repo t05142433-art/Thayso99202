@@ -2,61 +2,61 @@
 <component name="Login" extends="Group">
     <script type="text/brightscript" uri="pkg:/components/Login.brs" />
     <children>
-        <!-- Fundo Neon Profundo -->
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
-        <!-- Gradiente de Fundo (Simulado) -->
-        <Rectangle width="1920" height="1080" opacity="0.3">
-            <Poster width="1920" height="1080" uri="https://picsum.photos/seed/iptv/1920/1080?blur=10" />
+        <!-- Background Glow -->
+        <Rectangle width="1920" height="1080" opacity="0.1">
+            <Poster width="1920" height="1080" uri="https://picsum.photos/seed/iptv_3d/1920/1080?blur=15" />
         </Rectangle>
 
-        <!-- Container Central com Efeito 3D/Neon -->
-        <Group id="loginContainer" translation="[560, 150]">
-            <!-- Borda Neon Externa (Glow) -->
-            <Rectangle width="810" height="790" translation="[-5, -5]" color="0xFF00FFFF" opacity="0.1" />
-            <Rectangle width="800" height="780" color="0xFF00FFFF" opacity="0.2" />
-            <Rectangle width="790" height="770" translation="[5, 5]" color="0x101010FF" />
+        <!-- 3D Container -->
+        <Group id="loginContainer" translation="[460, 150]">
+            <!-- Outer Glow Border -->
+            <Rectangle width="1010" height="790" translation="[-5, -5]" color="0xFF00FFFF" opacity="0.1" />
+            <Rectangle width="1000" height="780" color="0x101010FF" />
             
-            <Label text="Thayson &amp; Thayla IPTV" font="font:LargeBoldSystemFont" color="0x00FFFFFF" translation="[400, 50]" horizAlign="center" />
-            <Label text="LOGIN DE ACESSO" font="font:MediumBoldSystemFont" color="0xFF00FFFF" translation="[400, 120]" horizAlign="center" />
+            <!-- Inner 3D Border -->
+            <Rectangle width="980" height="760" translation="[10, 10]" color="0x000000FF" />
+            <Rectangle width="978" height="758" translation="[11, 11]" color="0x151515FF" />
+            
+            <!-- Neon Accent Line -->
+            <Rectangle width="978" height="2" translation="[11, 100]" color="0xFF00FFFF" opacity="0.5" />
 
-            <!-- Campos de Entrada -->
-            <Group id="inputsGroup" translation="[100, 200]">
-                <!-- Host -->
-                <Label text="URL DO SERVIDOR (HOST)" font="font:SmallSystemFont" color="0x888888FF" />
-                <Rectangle id="hostBg" width="600" height="70" translation="[0, 30]" color="0x202020FF">
-                    <TextEditBox id="hostInput" width="600" height="70" hintText="http://host:porta" textColor="0xFFFFFFFF" hintTextColor="0x555555FF" />
-                </Rectangle>
+            <Label text="Thayson &amp; Thayla IPTV" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[500, 40]" horizAlign="center" />
+            <Label text="ATIVAÇÃO DO DISPOSITIVO" font="font:SmallBoldSystemFont" color="0x888888FF" translation="[500, 120]" horizAlign="center" />
 
-                <!-- Usuário -->
-                <Label text="USUÁRIO" font="font:SmallSystemFont" color="0x888888FF" translation="[0, 130]" />
-                <Rectangle id="userBg" width="600" height="70" translation="[0, 160]" color="0x202020FF">
-                    <TextEditBox id="userInput" width="600" height="70" hintText="Seu usuário" textColor="0xFFFFFFFF" hintTextColor="0x555555FF" />
-                </Rectangle>
-
-                <!-- Senha -->
-                <Label text="SENHA" font="font:SmallSystemFont" color="0x888888FF" translation="[0, 260]" />
-                <Rectangle id="passBg" width="600" height="70" translation="[0, 290]" color="0x202020FF">
-                    <TextEditBox id="passInput" width="600" height="70" hintText="Sua senha" secureMode="true" textColor="0xFFFFFFFF" hintTextColor="0x555555FF" />
-                </Rectangle>
-            </Group>
-
-            <!-- Botões -->
-            <Group id="buttonsGroup" translation="[100, 600]">
-                <Rectangle id="btnContinueBg" width="280" height="80" color="0x00FFFF33">
-                    <Label id="btnContinueText" text="ENTRAR" width="280" height="80" horizAlign="center" vertAlign="center" font="font:MediumBoldSystemFont" color="0x00FFFFFF" />
-                </Rectangle>
+            <!-- Pairing Code Section -->
+            <Group translation="[100, 200]">
+                <Label text="ACESSE NO SEU CELULAR OU PC:" font="font:MediumSystemFont" color="0xAAAAAAFF" translation="[400, 0]" horizAlign="center" />
+                <Label id="urlLabel" text="https://ais-dev-4exy655xatecjqmeowfa4c-131905852071.us-east5.run.app" font="font:MediumBoldSystemFont" color="0x00FFFF00" translation="[400, 50]" horizAlign="center" />
                 
-                <Rectangle id="btnCancelBg" width="280" height="80" translation="[320, 0]" color="0x333333FF">
-                    <Label id="btnCancelText" text="SAIR" width="280" height="80" horizAlign="center" vertAlign="center" font="font:MediumBoldSystemFont" color="0x888888FF" />
+                <Group translation="[0, 150]">
+                    <Rectangle width="800" height="200" color="0x000000FF">
+                        <Rectangle width="800" height="2" translation="[0, 0]" color="0x00FFFFFF" opacity="0.3" />
+                        <Rectangle width="800" height="2" translation="[0, 198]" color="0x00FFFFFF" opacity="0.3" />
+                        
+                        <Label id="codeLabel" text="--- ---" font="font:LargeBoldSystemFont" color="0xFFFFFFFF" width="800" height="200" horizAlign="center" vertAlign="center" />
+                    </Rectangle>
+                </Group>
+                
+                <Label text="Insira o código acima no navegador para conectar sua playlist." font="font:SmallSystemFont" color="0x666666FF" translation="[400, 380]" horizAlign="center" />
+            </Group>
+
+            <!-- Status Section -->
+            <Group id="statusGroup" translation="[500, 650]">
+                <Label id="statusLabel" text="AGUARDANDO CONEXÃO..." font="font:SmallBoldSystemFont" color="0x00FFFF99" horizAlign="center" />
+                <Rectangle id="loadingBar" width="400" height="4" translation="[-200, 40]" color="0x333333FF">
+                    <Rectangle id="loadingProgress" width="0" height="4" color="0x00FFFFFF" />
                 </Rectangle>
             </Group>
-            
-            <Label id="errorLabel" color="0xFF0000FF" translation="[400, 720]" horizAlign="center" font="font:SmallSystemFont" />
         </Group>
+        
+        <Timer id="pollTimer" duration="5" repeat="true" />
+        <Timer id="animTimer" duration="0.05" repeat="true" />
     </children>
     
     <interface>
         <field id="loginSuccess" type="bool" alwaysNotify="true" />
+        <field id="credentials" type="assocarray" alwaysNotify="true" />
     </interface>
 </component>

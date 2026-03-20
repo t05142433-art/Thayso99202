@@ -4,35 +4,55 @@
     <children>
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
-        <!-- Menu Lateral Neon -->
-        <Rectangle id="sideMenu" width="300" height="1080" color="0x101010FF">
-            <Rectangle width="2" height="1080" translation="[298, 0]" color="0xFF00FFFF" opacity="0.5" />
+        <!-- Background Glow -->
+        <Rectangle width="1920" height="1080" opacity="0.1">
+            <Poster width="1920" height="1080" uri="https://picsum.photos/seed/iptv_home/1920/1080?blur=15" />
+        </Rectangle>
+
+        <!-- Sidebar Neon -->
+        <Rectangle id="sideMenu" width="350" height="1080" color="0x0A0A0AFF">
+            <Rectangle width="2" height="1080" translation="[348, 0]" color="0xFF00FFFF" opacity="0.3" />
             
-            <Label text="Thayson &amp; Thayla" font="font:SmallBoldSystemFont" color="0xFF00FFFF" translation="[150, 50]" horizAlign="center" />
+            <Group id="logoGroup" translation="[175, 80]">
+                <Label text="Thayson &amp; Thayla" font="font:SmallBoldSystemFont" color="0xFF00FFFF" horizAlign="center" />
+                <Label text="IPTV PREMIUM" font="font:SmallSystemFont" color="0x888888FF" translation="[0, 30]" horizAlign="center" />
+            </Group>
             
-            <LabelList id="menuList" width="300" height="900" 
-                       itemSize="[300, 100]" 
-                       translation="[0, 150]" 
+            <LabelList id="menuList" width="350" height="800" 
+                       itemSize="[350, 110]" 
+                       translation="[0, 200]" 
                        color="0x888888FF" 
-                       focusedColor="0xFF00FFFF" />
+                       focusedColor="0xFF00FFFF" 
+                       focusedFont="font:MediumBoldSystemFont" />
+                       
+            <!-- User Info Section -->
+            <Group id="userInfo" translation="[20, 950]">
+                <Rectangle width="310" height="100" color="0x151515FF" />
+                <Label id="userLabel" text="USUÁRIO: ---" font="font:SmallSystemFont" color="0xAAAAAAFF" translation="[10, 10]" />
+                <Label id="validityLabel" text="VALIDADE: --/--/----" font="font:SmallBoldSystemFont" color="0x00FFFF99" translation="[10, 40]" />
+                <Label id="statusLabel" text="STATUS: ATIVO" font="font:SmallSystemFont" color="0x00FF00FF" translation="[10, 70]" />
+            </Group>
         </Rectangle>
         
-        <!-- Área de Conteúdo -->
-        <Group id="contentArea" translation="[350, 50]">
-            <Label id="titleLabel" text="CANAIS AO VIVO" font="font:LargeBoldSystemFont" color="0x00FFFFFF" />
+        <!-- Main Content Area -->
+        <Group id="contentArea" translation="[400, 50]">
+            <Label id="titleLabel" text="CANAIS AO VIVO" font="font:LargeBoldSystemFont" color="0xFFFFFFFF" />
             
-            <!-- Grid de Canais/Filmes com Efeito 3D (Simulado com Posters) -->
+            <!-- Category Filter -->
+            <Label id="categoryLabel" text="TODOS OS CANAIS" font="font:SmallBoldSystemFont" color="0x888888FF" translation="[0, 80]" />
+            
+            <!-- Content Grid with 3D Effect -->
             <PosterGrid id="contentGrid" 
-                        translation="[0, 100]" 
+                        translation="[0, 150]" 
                         itemSize="[240, 360]" 
-                        baseGridSize="[1500, 900]" 
-                        numColumns="6" 
+                        baseGridSize="[1450, 850]" 
+                        numColumns="5" 
                         numRows="2" 
-                        itemSpacing="[30, 30]" 
+                        itemSpacing="[40, 40]" 
                         focusBitmapUri="pkg:/images/focus_neon.png" />
         </Group>
         
-        <!-- Player de Vídeo (Oculto por padrão) -->
+        <!-- Video Player Overlay -->
         <VideoPlayer id="videoPlayer" visible="false" />
     </children>
 </component>

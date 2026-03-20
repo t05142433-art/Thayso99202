@@ -1,124 +1,65 @@
 sub init()
-    m.hostInput = m.top.findNode("hostInput")
-    m.userInput = m.top.findNode("userInput")
-    m.passInput = m.top.findNode("passInput")
-    m.btnContinueBg = m.top.findNode("btnContinueBg")
-    m.btnCancelBg = m.top.findNode("btnCancelBg")
-    m.errorLabel = m.top.findNode("errorLabel")
+    m.codeLabel = m.top.findNode("codeLabel")
+    m.urlLabel = m.top.findNode("urlLabel")
+    m.statusLabel = m.top.findNode("statusLabel")
+    m.loadingProgress = m.top.findNode("loadingProgress")
+    m.pollTimer = m.top.findNode("pollTimer")
+    m.animTimer = m.top.findNode("animTimer")
     
-    m.hostBg = m.top.findNode("hostBg")
-    m.userBg = m.top.findNode("userBg")
-    m.passBg = m.top.findNode("passBg")
+    m.pairingCode = ""
+    m.progressWidth = 0
     
-    m.btnContinueText = m.top.findNode("btnContinueText")
-    m.btnCancelText = m.top.findNode("btnCancelText")
-
-    m.loginContainer = m.top.findNode("loginContainer")
-
-    ' Inicializa o foco
-    m.focusIndex = 0 ' 0: Host, 1: User, 2: Pass, 3: Continue, 4: Cancel
+    ' Iniciar animação da barra
+    m.animTimer.control = "start"
+    m.animTimer.observeField("fire", "onAnimTick")
     
-    m.top.setFocus(true)
-    updateFocus()
+    ' Gerar código inicial via Task
+    m.generateTask = createObject("roSGNode", "NetworkTask")
+    m.generateTask.requestType = "generateCode"
+    m.generateTask.observeField("response", "onGenerateResponse")
+    m.generateTask.control = "run"
 end sub
 
-sub updateFocus()
-    ' Cores Neon
-    neonColor = "0xFF00FFFF"
-    idleColor = "0x202020FF"
-    btnActive = "0x00FFFF99"
-    btnIdle = "0x333333FF"
-
-    ' Reseta estilos
-    m.hostBg.color = idleColor
-    m.userBg.color = idleColor
-    m.passBg.color = idleColor
-    m.btnContinueBg.color = btnIdle
-    m.btnCancelBg.color = btnIdle
-    
-    m.btnContinueText.color = "0x888888FF"
-    m.btnCancelText.color = "0x888888FF"
-
-    ' Aplica foco visual
-    if m.focusIndex = 0
-        m.hostBg.color = neonColor
-    else if m.focusIndex = 1
-        m.userBg.color = neonColor
-    else if m.focusIndex = 2
-        m.passBg.color = neonColor
-    else if m.focusIndex = 3
-        m.btnContinueBg.color = btnActive
-        m.btnContinueText.color = "0xFFFFFFFF"
-    else if m.focusIndex = 4
-        m.btnCancelBg.color = "0xFF00FF99"
-        m.btnCancelText.color = "0xFFFFFFFF"
+sub onGenerateResponse()
+    if m.generateTask.response <> invalid
+        m.pairingCode = m.generateTask.response.code
+        m.codeLabel.text = m.pairingCode
+        
+        ' Iniciar polling
+        m.pollTimer.control = "start"
+        m.pollTimer.observeField("fire", "onPollTick")
     end if
 end sub
 
-sub validateLogin()
-    host = m.hostInput.text
-    user = m.userInput.text
-    pass = m.passInput.text
-    
-    if host = "" or user = "" or pass = ""
-        m.errorLabel.text = "ERRO: PREENCHA TODOS OS CAMPOS!"
-        return
+sub onPollTick()
+    if m.pairingCode <> ""
+        m.pollTask = createObject("roSGNode", "NetworkTask")
+        m.pollTask.requestType = "pollStatus"
+        m.pollTask.params = { code: m.pairingCode }
+        m.pollTask.observeField("response", "onPollResponse")
+        m.pollTask.control = "run"
     end if
-    
-    m.errorLabel.text = "CONECTANDO AO SERVIDOR..."
-    ' Simulação de login
-    m.top.loginSuccess = true
+end sub
+
+sub onPollResponse()
+    if m.pollTask.response <> invalid
+        if m.pollTask.response.status = "completed"
+            ' Login bem sucedido!
+            m.top.credentials = m.pollTask.response.credentials
+            m.top.loginSuccess = true
+        end if
+    end if
+end sub
+
+sub onAnimTick()
+    m.progressWidth = (m.progressWidth + 10) MOD 400
+    m.loadingProgress.width = m.progressWidth
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
-        if key = "down"
-            if m.focusIndex < 3
-                m.focusIndex = m.focusIndex + 1
-            else if m.focusIndex = 3
-                m.focusIndex = 4
-            end if
-            updateFocus()
+        if key = "back"
             return true
-        else if key = "up"
-            if m.focusIndex > 0
-                if m.focusIndex = 4
-                    m.focusIndex = 3
-                else
-                    m.focusIndex = m.focusIndex - 1
-                end if
-            end if
-            updateFocus()
-            return true
-        else if key = "right"
-            if m.focusIndex = 3
-                m.focusIndex = 4
-                updateFocus()
-                return true
-            end if
-        else if key = "left"
-            if m.focusIndex = 4
-                m.focusIndex = 3
-                updateFocus()
-                return true
-            end if
-        else if key = "OK"
-            if m.focusIndex = 0
-                m.hostInput.active = true
-                return true
-            else if m.focusIndex = 1
-                m.userInput.active = true
-                return true
-            else if m.focusIndex = 2
-                m.passInput.active = true
-                return true
-            else if m.focusIndex = 3
-                validateLogin()
-                return true
-            else if m.focusIndex = 4
-                ' Sair
-                return true
-            end if
         end if
     end if
     return false

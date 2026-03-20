@@ -3,9 +3,11 @@ sub init()
     m.contentGrid = m.top.findNode("contentGrid")
     m.titleLabel = m.top.findNode("titleLabel")
     m.videoPlayer = m.top.findNode("videoPlayer")
-    m.contentArea = m.top.findNode("contentArea")
+    m.userLabel = m.top.findNode("userLabel")
+    m.validityLabel = m.top.findNode("validityLabel")
+    m.statusLabel = m.top.findNode("statusLabel")
     
-    m.menuItems = ["CANAIS", "FILMES", "SÉRIES", "CONTINUAR", "CONFIGURAÇÕES"]
+    m.menuItems = ["CANAIS AO VIVO", "FILMES", "SÉRIES", "CONTINUAR", "CONFIGURAÇÕES"]
     m.menuList.content = createMenuContent()
     
     m.menuList.observeField("itemFocused", "onMenuItemFocused")
@@ -15,8 +17,24 @@ sub init()
     
     m.menuList.setFocus(true)
     
+    ' Carregar informações do usuário
+    loadUserInfo()
+    
     ' Carregar dados iniciais
     loadChannels()
+end sub
+
+sub loadUserInfo()
+    if m.global.auth <> invalid
+        m.userLabel.text = "USUÁRIO: " + m.global.auth.username
+        ' Em produção, buscaria a validade real via API do IPTV
+        m.validityLabel.text = "VALIDADE: 20/03/2027"
+        m.statusLabel.text = "STATUS: ATIVO"
+    else
+        m.userLabel.text = "USUÁRIO: ---"
+        m.validityLabel.text = "VALIDADE: --/--/----"
+        m.statusLabel.text = "STATUS: DESCONECTADO"
+    end if
 end sub
 
 function createMenuContent() as Object
@@ -46,10 +64,10 @@ end sub
 sub showSettings()
     m.contentGrid.visible = false
     ' Se já houver settings, remove
-    if m.settings <> invalid then m.contentArea.removeChild(m.settings)
+    if m.settings <> invalid then m.top.removeChild(m.settings)
     
     m.settings = createObject("roSGNode", "Settings")
-    m.contentArea.appendChild(m.settings)
+    m.top.appendChild(m.settings)
     m.settings.observeField("itemSelected", "onSettingsItemSelected")
 end sub
 
@@ -130,12 +148,12 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.contentGrid.setFocus(true)
                 return true
             end if
-            if m.settings <> invalid and m.settings.hasFocus()
+            if m.pairing <> invalid and m.pairing.hasFocus()
+                m.top.removeChild(m.pairing)
                 m.menuList.setFocus(true)
                 return true
             end if
-            if m.pairing <> invalid and m.pairing.hasFocus()
-                m.top.removeChild(m.pairing)
+            if m.settings <> invalid and m.settings.hasFocus()
                 m.menuList.setFocus(true)
                 return true
             end if
