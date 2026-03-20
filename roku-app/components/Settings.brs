@@ -1,7 +1,7 @@
 sub init()
     m.settingsList = m.top.findNode("settingsList")
     
-    m.items = ["Conectar via Código", "Idioma", "Tema: Azul + Rosa", "Limpar Cache", "Sair"]
+    m.items = ["CONECTAR VIA CÓDIGO", "IDIOMA", "TEMA: NEON PINK", "LIMPAR CACHE", "SAIR"]
     m.settingsList.content = createSettingsContent()
     
     m.settingsList.observeField("itemSelected", "onItemSelected")
@@ -18,8 +18,5 @@ function createSettingsContent() as Object
 end function
 
 sub onItemSelected()
-    idx = m.settingsList.itemSelected
-    if idx = 0
-        ' Abrir tela de pareamento
-    end if
+    m.top.itemSelected = m.settingsList.itemSelected
 end sub

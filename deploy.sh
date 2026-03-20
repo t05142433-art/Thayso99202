@@ -1,36 +1,23 @@
 #!/bin/bash
 
-# Script de Compilação e Deploy para Roku (Termux Ready)
-# Thayson & Thayla IPTV
-
-# Configurações da TV
-ROKU_IP="192.168.1.100" # Mude para o IP da sua TV
-USER="rokudev"
-PASS="1234" # Mude para sua senha de desenvolvedor
+# Configurações da sua TV Roku
+ROKU_IP=192.168.1.4
+PASS=1234
 
 echo "--- Iniciando Deploy para Roku ---"
 
-# Limpar build anterior
-rm -rf build_roku
+# Limpa build anterior
 rm -f app.zip
 
-# Criar estrutura de build
-mkdir build_roku
-cp -r roku-app/* build_roku/
-
-# Empacotar
+# Zippando arquivos
 echo "Zippando arquivos..."
-cd build_roku
+cd roku-app
 zip -r ../app.zip .
 cd ..
 
-# Instalar na Roku via cURL (Digest Auth)
+# Instalando na TV
 echo "Instalando na TV em $ROKU_IP..."
-curl --user "$USER:$PASS" --digest \
-     -F "archive=@app.zip" \
-     -F "mysubmit=Install" \
-     http://$ROKU_IP/plugin_install
+curl --user "rokudev:$PASS" --digest -F "archive=@app.zip" -F "mysubmit=Install" http://$ROKU_IP/plugin_install
 
 echo ""
-echo "--- Processo Concluído ---"
-echo "Se o cURL retornou sucesso, o app já deve estar abrindo na sua TV!"
+echo "--- Deploy Concluído! ---"

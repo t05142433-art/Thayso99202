@@ -5,24 +5,33 @@
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
         <!-- Logo com Glow Neon -->
-        <Label id="logoLabel" text="Thayson &amp; Thayla IPTV" 
-               font="font:LargeBoldSystemFont" 
-               color="0x00FFFFFF" 
-               translation="[960, 540]" 
-               horizAlign="center" 
-               vertAlign="center" />
-               
-        <Label id="loadingLabel" text="Carregando..." 
+        <Group id="logoGroup" translation="[960, 540]">
+            <Label id="logoLabel" text="Thayson &amp; Thayla IPTV" 
+                   font="font:LargeBoldSystemFont" 
+                   color="0xFF00FFFF" 
+                   horizAlign="center" 
+                   vertAlign="center" />
+            
+            <Label id="logoGlow" text="Thayson &amp; Thayla IPTV" 
+                   font="font:LargeBoldSystemFont" 
+                   color="0xFF00FFFF" 
+                   opacity="0.3"
+                   horizAlign="center" 
+                   vertAlign="center" />
+        </Group>
+                
+        <Label id="loadingLabel" text="CARREGANDO SISTEMA..." 
                font="font:SmallSystemFont" 
-               color="0xFF00FFFF" 
-               translation="[960, 650]" 
+               color="0x00FFFFFF" 
+               translation="[960, 700]" 
                horizAlign="center" />
 
-        <Animation id="logoAnim" duration="2" repeat="false" easeFunction="linear">
-            <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="logoLabel.opacity" />
+        <Animation id="logoAnim" duration="2" repeat="true" easeFunction="linear">
+            <FloatFieldInterpolator key="[0.0, 0.5, 1.0]" keyValue="[0.3, 0.8, 0.3]" fieldToInterp="logoGlow.opacity" />
+            <Vector2DFieldInterpolator key="[0.0, 0.5, 1.0]" keyValue="[[1.0, 1.0], [1.1, 1.1], [1.0, 1.0]]" fieldToInterp="logoGroup.scale" />
         </Animation>
         
-        <Timer id="splashTimer" duration="3" repeat="false" />
+        <Timer id="splashTimer" duration="4" repeat="false" />
     </children>
     
     <interface>

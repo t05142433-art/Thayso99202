@@ -4,14 +4,19 @@
     <children>
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
-        <Label text="CONECTAR VIA CÓDIGO" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[960, 200]" horizAlign="center" />
-        
-        <Label id="codeLabel" text="------" font="font:LargeBoldSystemFont" color="0x00FFFFFF" translation="[960, 450]" horizAlign="center" />
-        
-        <Label text="Acesse no seu celular ou PC:" color="0x888888FF" translation="[960, 600]" horizAlign="center" />
-        <Label id="urlLabel" text="http://IP_DO_SERVIDOR:3000" font="font:MediumBoldSystemFont" color="0x00FFFF00" translation="[960, 650]" horizAlign="center" />
-        
-        <Label text="O código expira em 5 minutos." color="0x888888FF" translation="[960, 750]" horizAlign="center" />
+        <Group translation="[460, 200]">
+            <Rectangle width="1000" height="680" color="0xFF00FFFF" opacity="0.1" />
+            <Rectangle width="990" height="670" translation="[5, 5]" color="0x101010FF" />
+            
+            <Label text="CONECTAR VIA CÓDIGO" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[500, 50]" horizAlign="center" />
+            
+            <Label id="codeLabel" text="123 456" font="font:LargeBoldSystemFont" color="0x00FFFFFF" translation="[500, 250]" horizAlign="center" />
+            
+            <Label text="Acesse no seu celular ou PC:" color="0x888888FF" translation="[500, 400]" horizAlign="center" />
+            <Label id="urlLabel" text="http://IP_DO_SERVIDOR:3000" font="font:MediumBoldSystemFont" color="0x00FFFF00" translation="[500, 450]" horizAlign="center" />
+            
+            <Label text="O código expira em 5 minutos." color="0x888888FF" translation="[500, 550]" horizAlign="center" />
+        </Group>
         
         <Timer id="checkTimer" duration="5" repeat="true" />
     </children>

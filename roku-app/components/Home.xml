@@ -4,27 +4,32 @@
     <children>
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
-        <!-- Menu Lateral -->
+        <!-- Menu Lateral Neon -->
         <Rectangle id="sideMenu" width="300" height="1080" color="0x101010FF">
-            <LabelList id="menuList" width="300" height="1080" 
-                       itemSize="[300, 80]" 
-                       translation="[0, 100]" 
+            <Rectangle width="2" height="1080" translation="[298, 0]" color="0xFF00FFFF" opacity="0.5" />
+            
+            <Label text="Thayson &amp; Thayla" font="font:SmallBoldSystemFont" color="0xFF00FFFF" translation="[150, 50]" horizAlign="center" />
+            
+            <LabelList id="menuList" width="300" height="900" 
+                       itemSize="[300, 100]" 
+                       translation="[0, 150]" 
                        color="0x888888FF" 
                        focusedColor="0xFF00FFFF" />
         </Rectangle>
         
         <!-- Área de Conteúdo -->
         <Group id="contentArea" translation="[350, 50]">
-            <Label id="titleLabel" text="Canais" font="font:LargeBoldSystemFont" color="0x00FFFFFF" />
+            <Label id="titleLabel" text="CANAIS AO VIVO" font="font:LargeBoldSystemFont" color="0x00FFFFFF" />
             
-            <!-- Grid de Canais/Filmes -->
+            <!-- Grid de Canais/Filmes com Efeito 3D (Simulado com Posters) -->
             <PosterGrid id="contentGrid" 
                         translation="[0, 100]" 
                         itemSize="[240, 360]" 
                         baseGridSize="[1500, 900]" 
                         numColumns="6" 
                         numRows="2" 
-                        itemSpacing="[20, 20]" />
+                        itemSpacing="[30, 30]" 
+                        focusBitmapUri="pkg:/images/focus_neon.png" />
         </Group>
         
         <!-- Player de Vídeo (Oculto por padrão) -->

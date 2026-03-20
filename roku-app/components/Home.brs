@@ -5,7 +5,7 @@ sub init()
     m.videoPlayer = m.top.findNode("videoPlayer")
     m.contentArea = m.top.findNode("contentArea")
     
-    m.menuItems = ["Canais", "Filmes", "Séries", "Continuar", "Configurações"]
+    m.menuItems = ["CANAIS", "FILMES", "SÉRIES", "CONTINUAR", "CONFIGURAÇÕES"]
     m.menuList.content = createMenuContent()
     
     m.menuList.observeField("itemFocused", "onMenuItemFocused")
@@ -45,6 +45,9 @@ end sub
 
 sub showSettings()
     m.contentGrid.visible = false
+    ' Se já houver settings, remove
+    if m.settings <> invalid then m.contentArea.removeChild(m.settings)
+    
     m.settings = createObject("roSGNode", "Settings")
     m.contentArea.appendChild(m.settings)
     m.settings.observeField("itemSelected", "onSettingsItemSelected")
@@ -75,7 +78,9 @@ sub onContentSelected()
 end sub
 
 sub loadChannels()
-    ' Mock de canais
+    m.contentGrid.visible = true
+    if m.settings <> invalid then m.settings.visible = false
+    
     content = createObject("roSGNode", "ContentNode")
     for i = 1 to 20
         node = content.createChild("ContentNode")
@@ -86,6 +91,9 @@ sub loadChannels()
 end sub
 
 sub loadMovies()
+    m.contentGrid.visible = true
+    if m.settings <> invalid then m.settings.visible = false
+    
     content = createObject("roSGNode", "ContentNode")
     for i = 1 to 20
         node = content.createChild("ContentNode")
@@ -96,6 +104,9 @@ sub loadMovies()
 end sub
 
 sub loadSeries()
+    m.contentGrid.visible = true
+    if m.settings <> invalid then m.settings.visible = false
+    
     content = createObject("roSGNode", "ContentNode")
     for i = 1 to 20
         node = content.createChild("ContentNode")
@@ -117,6 +128,15 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.videoPlayer.control = "stop"
                 m.videoPlayer.visible = false
                 m.contentGrid.setFocus(true)
+                return true
+            end if
+            if m.settings <> invalid and m.settings.hasFocus()
+                m.menuList.setFocus(true)
+                return true
+            end if
+            if m.pairing <> invalid and m.pairing.hasFocus()
+                m.top.removeChild(m.pairing)
+                m.menuList.setFocus(true)
                 return true
             end if
         end if

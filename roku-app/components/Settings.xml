@@ -4,11 +4,19 @@
     <children>
         <Rectangle width="1920" height="1080" color="0x050505FF" />
         
-        <Label text="CONFIGURAÇÕES" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[960, 100]" horizAlign="center" />
-        
-        <LabelList id="settingsList" width="800" height="600" translation="[560, 250]" 
-                   itemSize="[800, 80]" 
-                   color="0x888888FF" 
-                   focusedColor="0xFF00FFFF" />
+        <Group translation="[560, 100]">
+            <Rectangle width="800" height="880" color="0xFF00FFFF" opacity="0.1" />
+            <Rectangle width="790" height="870" translation="[5, 5]" color="0x101010FF" />
+            
+            <Label text="CONFIGURAÇÕES" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[400, 50]" horizAlign="center" />
+            
+            <LabelList id="settingsList" width="700" height="700" translation="[50, 150]" 
+                       itemSize="[700, 100]" 
+                       color="0x888888FF" 
+                       focusedColor="0xFF00FFFF" />
+        </Group>
     </children>
+    <interface>
+        <field id="itemSelected" type="int" alwaysNotify="true" />
+    </interface>
 </component>

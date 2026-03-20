@@ -4,11 +4,18 @@
     <children>
         <Video id="video" width="1920" height="1080" />
         
-        <!-- Overlay de Controles -->
-        <Rectangle id="controls" width="1920" height="200" translation="[0, 880]" color="0x000000AA" visible="false">
-            <Label id="title" translation="[50, 50]" font="font:MediumSystemFont" color="0xFFFFFFFF" />
-            <Rectangle id="progressBackground" translation="[50, 120]" width="1820" height="10" color="0x444444FF" />
-            <Rectangle id="progressBar" translation="[50, 120]" width="0" height="10" color="0xFF00FFFF" />
+        <!-- Overlay de Controles Neon -->
+        <Rectangle id="controls" width="1920" height="250" translation="[0, 830]" color="0x000000CC" visible="false">
+            <Rectangle width="1920" height="2" translation="[0, 0]" color="0xFF00FFFF" opacity="0.5" />
+            
+            <Label id="title" translation="[100, 50]" font="font:MediumBoldSystemFont" color="0xFFFFFFFF" text="REPRODUZINDO AGORA" />
+            
+            <Group translation="[100, 150]">
+                <Rectangle id="progressBackground" width="1720" height="10" color="0x444444FF" />
+                <Rectangle id="progressBar" width="0" height="10" color="0xFF00FFFF" />
+            </Group>
+            
+            <Label id="timeLabel" text="00:00 / 00:00" font="font:SmallSystemFont" color="0x888888FF" translation="[1820, 180]" horizAlign="right" />
         </Rectangle>
     </children>
     
