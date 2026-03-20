@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Home" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/Home.brs" />
+    <children>
+        <Rectangle width="1920" height="1080" color="0x050505FF" />
+        
+        <!-- Menu Lateral -->
+        <Rectangle id="sideMenu" width="300" height="1080" color="0x101010FF">
+            <LabelList id="menuList" width="300" height="1080" 
+                       itemSize="[300, 80]" 
+                       translation="[0, 100]" 
+                       color="0x888888FF" 
+                       focusedColor="0xFF00FFFF" />
+        </Rectangle>
+        
+        <!-- Área de Conteúdo -->
+        <Group id="contentArea" translation="[350, 50]">
+            <Label id="titleLabel" text="Canais" font="font:LargeBoldSystemFont" color="0x00FFFFFF" />
+            
+            <!-- Grid de Canais/Filmes -->
+            <PosterGrid id="contentGrid" 
+                        translation="[0, 100]" 
+                        itemSize="[240, 360]" 
+                        baseGridSize="[1500, 900]" 
+                        numColumns="6" 
+                        numRows="2" 
+                        itemSpacing="[20, 20]" />
+        </Group>
+        
+        <!-- Player de Vídeo (Oculto por padrão) -->
+        <VideoPlayer id="videoPlayer" visible="false" />
+    </children>
+</component>

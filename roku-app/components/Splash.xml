@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Splash" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/Splash.brs" />
+    <children>
+        <Rectangle width="1920" height="1080" color="0x050505FF" />
+        
+        <!-- Logo com Glow Neon -->
+        <Label id="logoLabel" text="Thayson &amp; Thayla IPTV" 
+               font="font:LargeBoldSystemFont" 
+               color="0x00FFFFFF" 
+               translation="[960, 540]" 
+               horizAlign="center" 
+               vertAlign="center" />
+               
+        <Label id="loadingLabel" text="Carregando..." 
+               font="font:SmallSystemFont" 
+               color="0xFF00FFFF" 
+               translation="[960, 650]" 
+               horizAlign="center" />
+
+        <Animation id="logoAnim" duration="2" repeat="false" easeFunction="linear">
+            <FloatFieldInterpolator key="[0.0, 1.0]" keyValue="[0.0, 1.0]" fieldToInterp="logoLabel.opacity" />
+        </Animation>
+        
+        <Timer id="splashTimer" duration="3" repeat="false" />
+    </children>
+    
+    <interface>
+        <field id="finished" type="bool" alwaysNotify="true" />
+    </interface>
+</component>

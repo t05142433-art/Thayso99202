@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="VideoPlayer" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/VideoPlayer.brs" />
+    <children>
+        <Video id="video" width="1920" height="1080" />
+        
+        <!-- Overlay de Controles -->
+        <Rectangle id="controls" width="1920" height="200" translation="[0, 880]" color="0x000000AA" visible="false">
+            <Label id="title" translation="[50, 50]" font="font:MediumSystemFont" color="0xFFFFFFFF" />
+            <ProgressBar id="progress" translation="[50, 120]" width="1820" />
+        </Rectangle>
+    </children>
+    
+    <interface>
+        <field id="control" type="string" alwaysNotify="true" />
+    </interface>
+</component>

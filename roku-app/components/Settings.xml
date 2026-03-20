@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Settings" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/Settings.brs" />
+    <children>
+        <Rectangle width="1920" height="1080" color="0x050505FF" />
+        
+        <Label text="CONFIGURAÇÕES" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[960, 100]" horizAlign="center" />
+        
+        <LabelList id="settingsList" width="800" height="600" translation="[560, 250]" 
+                   itemSize="[800, 80]" 
+                   color="0x888888FF" 
+                   focusedColor="0xFF00FFFF" />
+    </children>
+</component>

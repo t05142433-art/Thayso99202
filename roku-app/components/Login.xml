@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="Login" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/Login.brs" />
+    <children>
+        <Rectangle width="1920" height="1080" color="0x050505FF" />
+        
+        <Label text="LOGIN IPTV" font="font:LargeBoldSystemFont" color="0xFF00FFFF" translation="[960, 200]" horizAlign="center" />
+        
+        <LayoutGroup translation="[660, 350]" itemSpacings="[20]" layoutDirection="vert">
+            <Label text="Host:" color="0x00FFFFFF" />
+            <TextEditBox id="hostInput" width="600" hintText="http://host:port" />
+            
+            <Label text="Usuário:" color="0x00FFFFFF" />
+            <TextEditBox id="userInput" width="600" hintText="Seu usuário" />
+            
+            <Label text="Senha:" color="0x00FFFFFF" />
+            <TextEditBox id="passInput" width="600" hintText="Sua senha" secureMode="true" />
+            
+            <ButtonGroup id="buttons" buttons='["Continuar", "Cancelar"]' translation="[0, 50]" />
+        </LayoutGroup>
+        
+        <Label id="errorLabel" color="0xFF0000FF" translation="[960, 850]" horizAlign="center" />
+    </children>
+    
+    <interface>
+        <field id="loginSuccess" type="bool" alwaysNotify="true" />
+    </interface>
+</component>
